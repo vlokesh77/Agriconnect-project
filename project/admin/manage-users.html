@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Manage Users</title>
+
+    <link rel="stylesheet"
+          href="../style.css">
+
+</head>
+
+<body>
+
+
+<header class="navbar">
+
+    <div class="logo">
+        🌾 Admin
+    </div>
+
+    <nav>
+
+        <a href="dashboard.html">
+            Dashboard
+        </a>
+
+        <a href="manage-crops.html">
+            Crops
+        </a>
+
+        <a href="manage-users.html">
+            Users
+        </a>
+
+        <a href="#" onclick="logout()">
+            Logout
+        </a>
+
+    </nav>
+
+</header>
+
+
+<div class="dashboard-container">
+
+    <h1>
+        👨‍🌾 Registered Farmers
+    </h1>
+
+    <br>
+
+
+    <div class="table-container">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>Name</th>
+
+                    <th>Email</th>
+
+                    <th>Phone</th>
+
+                    <th>Role</th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody
+                id="userTable">
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+
+<script src="../app.js"></script>
+
+
+<script>
+
+checkAdmin();
+
+
+const users =
+    JSON.parse(
+        localStorage.getItem(
+            "users"
+        )
+    ) || [];
+
+
+const table =
+    document.getElementById(
+        "userTable"
+    );
+
+
+const farmers =
+    users.filter(
+        user =>
+            user.role === "farmer"
+    );
+
+
+farmers.forEach(
+    function(user) {
+
+        table.innerHTML += `
+
+            <tr>
+
+                <td>
+                    ${user.name}
+                </td>
+
+                <td>
+                    ${user.email}
+                </td>
+
+                <td>
+                    ${user.phone}
+                </td>
+
+                <td>
+                    Farmer
+                </td>
+
+            </tr>
+
+        `;
+
+    }
+);
+
+</script>
+
+</body>
+</html>

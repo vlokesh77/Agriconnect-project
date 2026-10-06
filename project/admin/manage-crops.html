@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Manage Crops</title>
+
+    <link rel="stylesheet"
+          href="../style.css">
+
+</head>
+
+<body>
+
+
+<header class="navbar">
+
+    <div class="logo">
+        🌾 Admin
+    </div>
+
+    <nav>
+
+        <a href="dashboard.html">
+            Dashboard
+        </a>
+
+        <a href="manage-crops.html">
+            Crops
+        </a>
+
+        <a href="manage-users.html">
+            Users
+        </a>
+
+        <a href="#" onclick="logout()">
+            Logout
+        </a>
+
+    </nav>
+
+</header>
+
+
+<div class="dashboard-container">
+
+    <h1>
+        🌱 Manage Crops
+    </h1>
+
+    <br>
+
+
+    <div class="auth-box">
+
+        <h2>
+            Add New Crop
+        </h2>
+
+
+        <form id="cropForm">
+
+
+            <div class="form-group">
+
+                <label>
+                    Crop Name
+                </label>
+
+                <input
+                    type="text"
+                    id="cropName"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Season
+                </label>
+
+                <input
+                    type="text"
+                    id="cropSeason"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Soil Type
+                </label>
+
+                <input
+                    type="text"
+                    id="cropSoil"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Description
+                </label>
+
+                <textarea
+                    id="cropDescription"
+                    required>
+                </textarea>
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="btn">
+
+                Add Crop
+
+            </button>
+
+        </form>
+
+    </div>
+
+
+    <br><br>
+
+
+    <div class="table-container">
+
+        <h2>
+            Crop List
+        </h2>
+
+        <br>
+
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>ID</th>
+
+                    <th>Crop</th>
+
+                    <th>Season</th>
+
+                    <th>Soil</th>
+
+                    <th>Action</th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody
+                id="cropTable">
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+
+<script src="../app.js"></script>
+
+
+<script>
+
+checkAdmin();
+
+
+function loadCrops() {
+
+    const crops =
+        JSON.parse(
+            localStorage.getItem(
+                "crops"
+            )
+        ) || [];
+
+
+    const table =
+        document.getElementById(
+            "cropTable"
+        );
+
+
+    table.innerHTML = "";
+
+
+    crops.forEach(
+        function(crop) {
+
+            table.innerHTML += `
+
+                <tr>
+
+                    <td>
+                        ${crop.id}
+                    </td>
+
+                    <td>
+                        ${crop.name}
+                    </td>
+
+                    <td>
+                        ${crop.season}
+                    </td>
+
+                    <td>
+                        ${crop.soil}
+                    </td>
+
+                    <td>
+
+                        <button
+                            class="btn"
+                            onclick="deleteCrop(${crop.id})">
+
+                            Delete
+
+                        </button>
+
+                    </td>
+
+                </tr>
+
+            `;
+
+        }
+    );
+
+}
+
+
+document
+    .getElementById(
+        "cropForm"
+    )
+    .addEventListener(
+        "submit",
+        function(event) {
+
+            event.preventDefault();
+
+
+            let crops =
+                JSON.parse(
+                    localStorage.getItem(
+                        "crops"
+                    )
+                ) || [];
+
+
+            const newCrop = {
+
+                id:
+                    Date.now(),
+
+                name:
+                    document
+                    .getElementById(
+                        "cropName"
+                    )
+                    .value
+                    .trim(),
+
+                season:
+                    document
+                    .getElementById(
+                        "cropSeason"
+                    )
+                    .value
+                    .trim(),
+
+                soil:
+                    document
+                    .getElementById(
+                        "cropSoil"
+                    )
+                    .value
+                    .trim(),
+
+                description:
+                    document
+                    .getElementById(
+                        "cropDescription"
+                    )
+                    .value
+                    .trim()
+
+            };
+
+
+            crops.push(
+                newCrop
+            );
+
+
+            localStorage.setItem(
+                "crops",
+                JSON.stringify(crops)
+            );
+
+
+            alert(
+                "Crop added successfully!"
+            );
+
+
+            document
+                .getElementById(
+                    "cropForm"
+                )
+                .reset();
+
+
+            loadCrops();
+
+        }
+    );
+
+
+function deleteCrop(id) {
+
+    let crops =
+        JSON.parse(
+            localStorage.getItem(
+                "crops"
+            )
+        ) || [];
+
+
+    crops =
+        crops.filter(
+            crop =>
+                crop.id !== id
+        );
+
+
+    localStorage.setItem(
+        "crops",
+        JSON.stringify(crops)
+    );
+
+
+    loadCrops();
+
+}
+
+
+loadCrops();
+
+</script>
+
+</body>
+</html>

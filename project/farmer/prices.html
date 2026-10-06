@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Market Prices</title>
+
+    <link rel="stylesheet"
+          href="../style.css">
+
+</head>
+
+<body>
+
+
+<header class="navbar">
+
+    <div class="logo">
+        🌾 AgriFriend
+    </div>
+
+    <nav>
+
+        <a href="dashboard.html">
+            Dashboard
+        </a>
+
+        <a href="crops.html">
+            Crops
+        </a>
+
+        <a href="tips.html">
+            Tips
+        </a>
+
+        <a href="schemes.html">
+            Schemes
+        </a>
+
+        <a href="#" onclick="logout()">
+            Logout
+        </a>
+
+    </nav>
+
+</header>
+
+
+<div class="dashboard-container">
+
+    <h1>
+        💰 Market Prices
+    </h1>
+
+    <br>
+
+
+    <div
+        class="content-grid"
+        id="priceContainer">
+    </div>
+
+</div>
+
+
+<script src="../app.js"></script>
+
+
+<script>
+
+checkFarmer();
+
+
+const prices =
+    JSON.parse(
+        localStorage.getItem(
+            "prices"
+        )
+    ) || [];
+
+
+const container =
+    document.getElementById(
+        "priceContainer"
+    );
+
+
+prices.forEach(
+    function(item) {
+
+        container.innerHTML += `
+
+            <div class="content-card">
+
+                <h3>
+                    🌾 ${item.crop}
+                </h3>
+
+                <p>
+                    <strong>
+                        Price:
+                    </strong>
+
+                    ${item.price}
+                </p>
+
+                <p>
+                    <strong>
+                        Unit:
+                    </strong>
+
+                    ${item.unit}
+                </p>
+
+            </div>
+
+        `;
+
+    }
+);
+
+</script>
+
+</body>
+</html>
